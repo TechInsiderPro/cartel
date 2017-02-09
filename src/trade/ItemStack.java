@@ -5,49 +5,42 @@ package trade;
  */
 public class ItemStack
 {
-	public static final int STACK_MAX = 64;
 	private Item stackItem;
 	private int count;
 
 	public ItemStack(Item stackItem)
 	{
 		this.stackItem = stackItem;
-		this.count = 1;
+		this.count = 0;
 	}
 
 	public ItemStack(Item stackItem, int count)
 	{
 		this.stackItem = stackItem;
-		this.count = Math.min(STACK_MAX, count);
+		this.count = count;
 	}
 
-	public int add(Item item, int itemCount)
+	public void add(int itemCount)
 	{
-		if (item.equals(stackItem) && itemCount > -1)
-		{
-			int amountToAdd = Math.min(itemCount, STACK_MAX - count);
-			count += amountToAdd;
-			return amountToAdd;
-		}
-
-		return -1;
+		if (itemCount > 0)
+			count += itemCount;
 	}
 
 	public void addFromStack(ItemStack itemStack, int itemCount)
 	{
-		itemStack.remove(this.add(itemStack.getStackItem(), Math.min(itemCount, itemStack.getCount())));
+		if (itemStack.getStackItem().equals(stackItem))
+		{
+			this.add(itemCount);
+			itemStack.remove(itemCount);
+		}
 	}
 
 	public int remove(int itemCount)
 	{
 		if (itemCount > -1)
-		{
-			int amountToRemove = Math.min(itemCount, count);
-			count -= amountToRemove;
-			return amountToRemove;
-		}
+			count = Math.max(0, count - itemCount);
 
-		return -1;
+		return Math.min(count, itemCount);
 	}
 
 	public Item getStackItem()
@@ -58,5 +51,10 @@ public class ItemStack
 	public int getCount()
 	{
 		return count;
+	}
+
+	public int getWeight()
+	{
+		return getCount() * stackItem.getWeight();
 	}
 }

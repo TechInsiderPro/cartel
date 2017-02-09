@@ -1,65 +1,65 @@
 package trade;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Alex on 2/8/2017.
  */
 public class Inventory
 {
-	private ItemStack[] itemStacks;
+	private int maxWeight;
+	private Map<Item, ItemStack> itemStacks;
 
-	public Inventory(int maxSlots)
+	public Inventory(int maxWeight)
 	{
-		this.itemStacks = new ItemStack[maxSlots];
+		this.maxWeight = maxWeight;
+		this.itemStacks = new HashMap<>();
+	}
+
+	public void add(Item item, int itemCount)
+	{
+		getStackOf(item).add(Math.min(itemCount, (getMaxWeight() - getCurrentWeight()) / item.getWeight()));
 	}
 
 	public void add(ItemStack itemStack)
 	{
-		for (ItemStack temp : itemStacks)
-			if (temp != null && itemStack.getCount() > 0)
-				temp.addFromStack(itemStack, itemStack.getCount());
-
-		for (int i = 0; i < itemStacks.length && itemStack.getCount() > 0; i++)
-			if (itemStacks[i] == null)
-			{
-				itemStacks[i] = itemStack;
-				return;
-			}
+		add(itemStack.getStackItem(), itemStack.getCount());
 	}
 
-	public ItemStack get(int index)
+	public ItemStack getStackOf(Item item)
 	{
-		if (index >= 0 || index < itemStacks.length)
-			return itemStacks[index];
+		if (!itemStacks.containsKey(item))
+			itemStacks.put(item, new ItemStack(item));
 
-		return null;
+		return itemStacks.get(item);
 	}
 
-	public ItemStack set(int index, ItemStack itemStack)
+	public ItemStack remove(Item item, int itemCount)
 	{
-		if (index >= 0 || index < itemStacks.length)
-		{
-			ItemStack temp = itemStacks[index];
-			itemStacks[index] = itemStack;
-			return temp;
-		}
-
-		return null;
-	}
-
-	public ItemStack remove(int index)
-	{
-		if (index >= 0 || index < itemStacks.length)
-		{
-			ItemStack temp = itemStacks[index];
-			itemStacks[index] = null;
-			return temp;
-		}
-
-		return null;
+		ItemStack temp = new ItemStack(item);
+		temp.addFromStack(getStackOf(item), itemCount);
+		return temp;
 	}
 
 	public int getSize()
 	{
-		return itemStacks.length;
+		return itemStacks.size();
+	}
+
+	public int getMaxWeight()
+	{
+		return maxWeight;
+	}
+
+	public int getCurrentWeight()
+	{
+		int totalWeight = 0;
+
+		for (ItemStack temp : itemStacks.values())
+			if (temp != null)
+				totalWeight += temp.getWeight();
+
+		return totalWeight;
 	}
 }
