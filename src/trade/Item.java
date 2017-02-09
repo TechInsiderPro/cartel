@@ -7,31 +7,31 @@ import static trade.ItemType.*;
  */
 public enum Item
 {
-    ;
+	Coke(30, Drugs, "White");
 
-    private double baseValue;
-    private ItemType itemType;
-    private String description;
+	private double baseValue;
+	private ItemType itemType;
+	private String description;
 
-    Item(double baseValue, ItemType itemType, String description)
-    {
-        this.baseValue = baseValue;
-        this.itemType = itemType;
-        this.description = description;
-    }
+	Item(double baseValue, ItemType itemType, String description)
+	{
+		this.baseValue = baseValue;
+		this.itemType = itemType;
+		this.description = description;
+	}
 
-    public double getBaseValue()
-    {
-        return baseValue;
-    }
+	public double getBaseValue()
+	{
+		return baseValue;
+	}
 
-    public ItemType getItemType()
-    {
-        return itemType;
-    }
+	public ItemType getItemType()
+	{
+		return itemType;
+	}
 
-    public String getDescription()
-    {
-        return description;
-    }
+	public String getDescription()
+	{
+		return description;
+	}
 }
