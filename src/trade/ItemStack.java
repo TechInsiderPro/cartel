@@ -5,7 +5,7 @@ package trade;
  */
 public class ItemStack
 {
-	private static final int STACK_MAX = 64;
+	public static final int STACK_MAX = 64;
 	private Item stackItem;
 	private int count;
 
@@ -18,7 +18,7 @@ public class ItemStack
 	public ItemStack(Item stackItem, int count)
 	{
 		this.stackItem = stackItem;
-		this.count = count;
+		this.count = Math.min(STACK_MAX, count);
 	}
 
 	public int add(Item item, int itemCount)

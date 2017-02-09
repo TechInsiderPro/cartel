@@ -57,4 +57,9 @@ public class Inventory
 
 		return null;
 	}
+
+	public int getSize()
+	{
+		return itemStacks.length;
+	}
 }
