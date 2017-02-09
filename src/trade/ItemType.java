@@ -5,5 +5,5 @@ package trade;
  */
 public enum ItemType
 {
-
+	Drugs
 }
