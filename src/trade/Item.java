@@ -7,15 +7,16 @@ import static trade.ItemType.*;
  */
 public enum Item
 {
-	Coke(30, Drugs, "White");
+	Coke(30, 1, Drugs, "White");
 
-	private double baseValue;
+	private int baseValue, weight;
 	private ItemType itemType;
 	private String description;
 
-	Item(double baseValue, ItemType itemType, String description)
+	Item(int baseValue, int weight, ItemType itemType, String description)
 	{
 		this.baseValue = baseValue;
+		this.weight = weight;
 		this.itemType = itemType;
 		this.description = description;
 	}
@@ -23,6 +24,11 @@ public enum Item
 	public double getBaseValue()
 	{
 		return baseValue;
+	}
+
+	public int getWeight()
+	{
+		return weight;
 	}
 
 	public ItemType getItemType()
